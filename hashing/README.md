@@ -9,4 +9,6 @@ The base versions are the simplest to read and understand and will work
 for most use cases but in principle your compiler could cause a problem
 because of Undefined Behavior due to unaligned access. If this is a 
 concern for you, see the sibling file that addresses this problem at a 
-minor cost in readability and implementation size.
+minor cost in readability and implementation size (thanks to Yasser Arguelles
+and Mārtiņš Možeiko for this).
+
