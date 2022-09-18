@@ -9,6 +9,5 @@ Perhaps you have heard of single-file libraries. They offer a tradeoff of less i
 
 ## What?
 
-Right now this only contains scribbles for two hash functions (murmur3 32-bit and xxhash64).
+Right now this only contains scribbles for two hash functions (murmur3 32-bit and xxhash64), as well as a 32-bit PCG random generator.
 
-I am slowly collecting such functions from old projects. I pushed this initial version specifically because the question of hash functions recurs among my friends and colleagues, and I wanted to have a simple reference to show them.
