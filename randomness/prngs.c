@@ -21,7 +21,7 @@
 
 uint32_t pcg32_pie (uint64_t *state) {
   uint64_t old = *state ^ 0xc90fdaa2adf85459ULL;
-  *state = old * 6364136223846793005ULL + 0xc90fdaa2adf85459ULL;
+  *state = *state * 6364136223846793005ULL + 0xc90fdaa2adf85459ULL;
   uint32_t xorshifted = ((old >> 18u) ^ old) >> 27u;
   uint32_t rot = old >> 59u;
   return (xorshifted >> rot) | (xorshifted << ((-rot) & 31));
