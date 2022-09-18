@@ -1,6 +1,14 @@
 #include <stdint.h>
 #include <string.h>
 
+// note that these functions will work equally well *as hashes* on 
+// little-endianand big-endian machines, but will give different (equally
+// well-mixed) answers depending on LE/BE; if you want to use this code 
+// and maintain uniformity across LE/BE systems then you will have to modify 
+// your inputs on BE systems to have LE byte order; to put it another way,
+// if you are using commonly used desktop, server, or mobile device processors 
+// in 2022, you don't have to think about this
+
 // xxhash64 without UB unaligned accesses
 uint64_t xxh_64_no_UB (const void *key, int len, uint64_t h) {
   // primes used in mul-rot updates
