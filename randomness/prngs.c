@@ -12,7 +12,7 @@
 //  
 // I have also added an XOR with the same digits on the output path prior
 // to xorshift mixing.  This prevents the "surprising" result that the 
-// first "random 64-bit number" from a (very common) 0 seed is 0.
+// first "random 32-bit number" from a (very common) 0 seed is 0.
 //
 // use: 
 //   uint64_t state = 12345; // whatever you like can go here
