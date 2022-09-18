@@ -4,7 +4,7 @@
 // please see the sibling "ub_aware_" file
 
 // note that these functions will work equally well *as hashes* on 
-// little-endianand big-endian machines, but will give different (equally
+// little-endian and big-endian machines, but will give different (equally
 // well-mixed) answers depending on LE/BE; if you want to use this code 
 // and maintain uniformity across LE/BE systems then you will have to modify 
 // your inputs on BE systems to have LE byte order; to put it another way,
