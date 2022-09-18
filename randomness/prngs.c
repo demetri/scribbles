@@ -1,6 +1,6 @@
 #include <stdint.h>
 
-// pcg32_pie, based on the minimal C version from O'Neill at pcgrandom.org;
+// pcg32_pie, based on the minimal C version from O'Neill at pcg-random.org;
 // I've made a few (subjective) UX improvements for beginner use
 //
 // I'm not allowing the user to pick the stream/increment constant at all,
