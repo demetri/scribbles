@@ -1,4 +1,6 @@
 #include <stdint.h>
+
+// this is only necessary for the _no_UB versions of the functions
 #include <string.h>
 
 // xxhash64
@@ -83,6 +85,7 @@ uint32_t mur3_32 (const void *key, int len, uint32_t h) {
   h = (h ^ (h >> 13))*0xc2b2ae35;
   return h ^ (h >> 16); 
 }
+
 
 // xxhash64 without UB unaligned accesses
 uint64_t xxh_64_no_UB (const void *key, int len, uint64_t h) {
