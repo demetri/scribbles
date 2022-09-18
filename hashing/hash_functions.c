@@ -45,7 +45,7 @@ uint64_t xxh_64 (const void *key, int len, uint64_t h) {
   // up to 7 bytes remain, process 0-1 4 byte block
   for (int i=0;i< (len & 7) / 4; i++, tail +=4) {
     uint64_t b;
-    memcpy(&b, tail, sizeof(uint32_t));
+    memcpy(&b, tail, sizeof(b));
 
     b = (s64 ^ b) * p1;
     s64 = ((b << 23) | (b >> 41))*p2 + p3;
@@ -69,7 +69,7 @@ uint32_t mur3_32 (const void *key, int len, uint32_t h) {
   // main body, work on 32-bit blocks at a time
   for (int i=0;i<len/4;i++) {
     uint32_t k;
-    memcpy(&k, &key[i * 4], sizeof(uint32_t));
+    memcpy(&k, &key[i * 4], sizeof(k));
 
     k *= 0xcc9e2d51;
     k = ((k << 15) | (k >> 17))*0x1b873593;
