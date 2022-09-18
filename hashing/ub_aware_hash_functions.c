@@ -1,10 +1,8 @@
 #include <stdint.h>
+#include <string.h>
 
-// if you need to worry about the UB risk due to unaligned loads
-// please see the sibling "ub_aware_" file
-
-// xxhash64
-uint64_t xxh_64 (const void *key, int len, uint64_t h) {
+// xxhash64 without UB unaligned accesses
+uint64_t xxh_64_no_UB (const void *key, int len, uint64_t h) {
   // primes used in mul-rot updates
   uint64_t p1 = 0x9e3779b185ebca87, p2 = 0xc2b2ae3d27d4eb4f,
     p3 = 0x165667b19e3779f9, p4 =0x85ebca77c2b2ae63, p5 = 0x27d4eb2f165667c5;
@@ -13,9 +11,10 @@ uint64_t xxh_64 (const void *key, int len, uint64_t h) {
   uint64_t s[4] = {h+p1+p2, h+p2, h, h-p1};
 
   // bulk work: process all 32 byte blocks 
-  uint64_t *k32 = (uint64_t*) key;
   for (int i=0; i < (len/32); i+=4) {
-    uint64_t b[4] = {k32[i+0], k32[i+1], k32[i+2], k32[i+3]};
+    uint64_t b[4];
+    memcpy(b, key, sizeof(b));
+
     for (int j=0;j<4;j++) b[j] = b[j]*p2+s[j];
     for (int j=0;j<4;j++) s[j] = ((b[j] << 31) | (b[j] >> 33))*p1;
   }
@@ -35,14 +34,20 @@ uint64_t xxh_64 (const void *key, int len, uint64_t h) {
   // up to 31 bytes remain, process 0-3 8 byte blocks
   uint8_t *tail = (uint8_t *) (key + (len/32)*32);
   for (int i=0;i < (len & 31) / 8; i++,tail+=8) {  
-    uint64_t b = (*((uint64_t*) tail))*p2;
+    uint64_t b;
+    memcpy(&b, tail, sizeof(uint64_t));
+
+    b *= p2;
     b = (((b << 31)| (b >> 33))*p1) ^ s64;
     s64 = ((b << 27) | (b >> 37))*p1 + p4;
   }
 
   // up to 7 bytes remain, process 0-1 4 byte block
   for (int i=0;i< (len & 7) / 4; i++, tail +=4) {
-    uint64_t b = s64 ^ (*(uint32_t*)tail)*p1;
+    uint64_t b;
+    memcpy(&b, tail, sizeof(b));
+
+    b = (s64 ^ b) * p1;
     s64 = ((b << 23) | (b >> 41))*p2 + p3;
   }
 
@@ -59,11 +64,14 @@ uint64_t xxh_64 (const void *key, int len, uint64_t h) {
 }
 
 
-// murmur3 32-bit
-uint32_t mur3_32 (const void *key, int len, uint32_t h) {
+// murmur3 32-bit without UB unaligned accesses
+uint32_t mur3_32_no_UB (const void *key, int len, uint32_t h) {
   // main body, work on 32-bit blocks at a time
   for (int i=0;i<len/4;i++) {
-    uint32_t k = ((uint32_t*) key)[i]*0xcc9e2d51;
+    uint32_t k;
+    memcpy(&k, &key[i * 4], sizeof(k));
+
+    k *= 0xcc9e2d51;
     k = ((k << 15) | (k >> 17))*0x1b873593;
     h = (((h^k) << 13) | ((h^k) >> 19))*5 + 0xe6546b64;
   }
