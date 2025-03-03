@@ -29,7 +29,7 @@ uint64_t xxh_64_no_UB (const void *key, int len, uint64_t h) {
 
   // mix 32-byte state down to 8-byte state, initalize to value for short keys
   uint64_t s64 = (s[2] + p5);
-  if (len > 32) {
+  if (len >= 32) {
     s64  = ((s[0] << 1)  | (s[0] >> 63)) + ((s[1] << 7)  | (s[1] >> 57)) +
            ((s[2] << 12) | (s[2] >> 52)) + ((s[3] << 18) | (s[3] >> 46));
     for (int i=0; i<4;i++) {
