@@ -22,8 +22,8 @@ uint64_t xxh_64 (const void *key, int len, uint64_t h) {
 
   // bulk work: process all 32 byte blocks 
   uint64_t *k32 = (uint64_t*) key;
-  for (int i=0; i < (len/32); i+=4) {
-    uint64_t b[4] = {k32[i+0], k32[i+1], k32[i+2], k32[i+3]};
+  for (int i=0; i < (len/32); i++) {
+    uint64_t b[4] = {k32[4*i+0], k32[4*i+1], k32[4*i+2], k32[4*i+3]};
     for (int j=0;j<4;j++) b[j] = b[j]*p2+s[j];
     for (int j=0;j<4;j++) s[j] = ((b[j] << 31) | (b[j] >> 33))*p1;
   }
